@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+</head>
+
+<body>
+
+    <div id="detalhado" style="display: none;">
+        <div class="sair" onclick="fechar()">X</div>
+        <div id="detalhado_container">
+
+        </div>
+
+    </div>
+
+    <div id="cadastrarCliente" style="display: none;">
+        <div class="sair" onclick="fechar()">X</div>
+        <h3>Cadastrar cliente</h3>
+
+        <input type="text" id="nomeCadastro" style="margin-bottom: 2rem;" placeholder="Nome do cliente">
+        <input type="number" id="whatsappCadastro" placeholder="Whatsapp do cliente (para cobrança)">
+        <button onclick="cadastrarCliente()">Cadastrar</button>
+    </div>
+
+    <div id="lancarNota" style="display: none;">
+        <div class="sair" onclick="fechar()">X</div>
+        <h3>Lançar nota</h3>
+
+        <select id="clienteSelecionado">
+            <option value="" disabled selected>Selecione um cliente</option>
+        </select>
+        <input type="number" id="valorNota" placeholder="Valor ex 580,00">
+        <input type="date" id="dataSelecionada">
+        <button onclick="lancarNota()">Lançar</button>
+    </div>
+
+    <div id="pagamentoParcial" style="display: none;">
+        <div class="sair" onclick="fechar()">X</div>
+        <h3>Lançar pagamento parcial</h3>
+
+        <input type="number" id="valorPagamentoParcial">
+
+
+    </div>
+
+    <main>
+        <H1>Contas em aberto</H1>
+
+        <div class="container_btns">
+            <button onclick="abrir('cadastrarCliente')">Criar cliente</button>
+            <button onclick="abrir('lancarNota')">Lançar nota</button>
+        </div>
+
+        <div id="contas">
+        </div>
+
+
+        <p id="total_titulo">Total na rua:</p>
+        <div class="container_total">
+            <input type="password" id="totalNaRua" disabled></input>
+            <img src="assets/olho.svg" id="olhoAberto">
+            <img src="assets/olhos-cruzados.svg" id="olhoFechado" style="display: none;">
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

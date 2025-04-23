@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: lightblue;
+}
+
+main {
+    width: 70%;
+    padding: 2rem;
+    margin: 2rem auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3rem;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+#contas {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.card {
+    border: 1px solid gray;
+    padding: 1rem .5rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    box-shadow: 2px 2px 5px gray;
+    min-width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.nome {
+    font-size: 1.3rem;
+}
+
+.ultimaCompra {
+    font-size: .8rem;
+    margin-top: .5rem;
+}
+
+.data {
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+.valor {
+    margin-top: .5rem;
+    font-size: .8rem;
+    color: #303030;
+
+    span {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #000;
+    }
+}
+
+.container_btns {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+
+    button {
+        padding: .6rem;
+        border-radius: 1rem;
+        border: none;
+        border-left: 4px solid rgb(0, 11, 114);
+        border-right: 4px solid rgb(0, 11, 114);
+        cursor: pointer;
+        font-size: 1.3rem;
+        background-color: rgb(223, 245, 255);
+    }
+}
+
+/* detalhado */
+.sair {
+    padding: 1rem;
+    position: absolute;
+    top: -.5rem;
+    right: -.5rem;
+    font-size: 1.5rem;
+    color: darkred;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 1s;
+}
+
+.sair:hover {
+    transform: rotateZ(360deg);
+}
+
+#detalhado {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(223, 243, 255);
+    width: 60vw;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid gray;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.cardDetalhado {
+    padding: .5rem;
+    margin: .5rem;
+    border: 1px solid black;
+    border-radius: .5rem;
+    display: GRID;
+    grid-template-columns: auto 10rem;
+    align-items: center;
+    background-color: white;
+}
+
+.detalhadoValor {
+    font-size: .8rem;
+
+    span {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+}
+
+.detalhadoObservacao {
+    font-size: .8rem;
+    color: gray;
+    margin: .5rem 0;
+}
+
+.detalhadoData {
+    font-size: 1.1rem;
+}
+
+h3 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin: 1rem;
+}
+
+.detalhadoJaPago {
+    font-size: .9rem;
+    margin-top: .5rem;
+    font-style: italic;
+
+    span {
+        font-size: 1.3rem;
+    }
+}
+
+.cardDir {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .5rem;
+
+    button {
+        height: 2.5rem;
+        background-color: rgb(223, 243, 255);
+        border: 1px solid;
+        border-radius: .5rem;
+        cursor: pointer;
+    }
+}
+
+.detalhadoPago {
+    opacity: .5;
+    background-color: lightgreen;
+}
+
+/* Cadastrar cliente */
+
+#cadastrarCliente {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(223, 243, 255);
+    width: 40vw;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid gray;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    input {
+        width: 70%;
+        margin: 0 auto;
+        padding: .5rem;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: none;
+        box-shadow: 0 0 10px black;
+    }
+
+    button {
+        width: 50%;
+        margin: 1rem auto;
+        font-size: 1.5rem;
+        padding: 1rem;
+        border: 1px solid gray;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+#lancarNota {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(223, 243, 255);
+    width: 40vw;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid gray;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    select {
+        width: 70%;
+        margin: 1rem auto;
+        padding: .5rem;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: none;
+        box-shadow: 0 0 10px black;
+    }
+
+    input {
+        width: 70%;
+        margin: 1rem auto;
+        padding: .5rem;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: none;
+        box-shadow: 0 0 10px black;
+    }
+
+    button {
+        width: 50%;
+        margin: 1rem auto;
+        font-size: 1.5rem;
+        padding: 1rem;
+        border: 1px solid gray;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+#pagamentoParcial {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: rgb(223, 243, 255);
+    width: 40vw;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border: 5px solid gray;
+    border-radius: 1rem;
+    padding: 1rem;
+
+    input {
+        width: 70%;
+        margin: 0 auto;
+        padding: .5rem;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border: none;
+        box-shadow: 0 0 10px black;
+    }
+
+    button {
+        width: 50%;
+        margin: 1rem auto;
+        font-size: 1.5rem;
+        padding: 1rem;
+        border: 1px solid gray;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+}
+
+
+/* total na rua */
+
+.container_total {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        font-size: 2rem;
+        background-color: transparent;
+        border: none;
+        color: #303030;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    img {
+        height: 2rem;
+        cursor: pointer;
+    }
+}
+
+#total_titulo {
+    margin-top: 3rem;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #404040;
+}
+
+.zipzop {
+    border-radius: 50%;
+    background-color: black;
+    width: 1rem;
+    height: 1rem;
+    box-shadow: 2px 2px 1px gray;
+}
+
+.conectado {
+    background-color: green;
+}
+
+.desconectado {
+    background-color: red;
+}
