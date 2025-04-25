@@ -49,19 +49,20 @@ Essa é uma mensagem automática"
 
 ## 🧱 Estrutura de pastas
 
-📦 devedores
-├── 📁 .wwebjs_auth           # Arquivos de autenticação do WhatsApp Web (não apagar!)
-├── 📁 .wwebjs_cache          # Cache do WhatsApp Web (não apagar!)
-├── 📁 node_modules           # Dependências do projeto
-├── 📁 assets                 # Imagens e arquivos estáticos (se desejar)
-├── 📁 public
-│   ├── 📄 index.html         # Interface do sistema
-│   ├── 📄 script.js          # Lógica do frontend
-│   └── 📄 style.css          # Estilo da aplicação
-├── 📄 server.js              # Backend Node.js com Express e WhatsApp
-├── 📄 package.json           # Dependências e scripts
-├── 📄 package-lock.json      # Controle de versões
-└── 📄 README.md              # Este arquivo
+📦 devedores  
+├── 📁 .wwebjs_auth           # Arquivos de autenticação do WhatsApp Web (não apagar!)  
+├── 📁 .wwebjs_cache          # Cache do WhatsApp Web (não apagar!)  
+├── 📁 node_modules           # Dependências do projeto  
+├── 📁 assets                 # Imagens e arquivos estáticos (se desejar)  
+├── 📁 public  
+│   ├── 📄 index.html         # Interface do sistema  
+│   ├── 📄 script.js          # Lógica do frontend  
+│   └── 📄 style.css          # Estilo da aplicação  
+├── 📄 server.js              # Backend Node.js com Express e WhatsApp  
+├── 📄 package.json           # Dependências e scripts  
+├── 📄 package-lock.json      # Controle de versões  
+└── 📄 README.md              # Este arquivo  
+
 
 
 ---
