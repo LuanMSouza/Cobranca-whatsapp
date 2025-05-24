@@ -72,6 +72,20 @@ Essa é uma mensagem automática"
 
 ---
 
+## 📌 Versões
+
+### v1.1.0 - 2025-05-24
+- Adicionada funcionalidade de pagamento parcial
+- Validação de valor antes do pagamento
+- Correção no carregamento do detalhado
+- Estilização de cards pagos
+- Correção de bugd (pagamentos negativos)
+
+### v1.0.0 - 2025-05-10
+- Sistema inicial de pedidos e clientes
+- Cadastro e visualização básica
+
+
 ## 🧑‍💻 Autor
 
 Desenvolvido por **Luan** — sistema real, local e funcional, já em uso em loja física.
