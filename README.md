@@ -79,7 +79,7 @@ Essa é uma mensagem automática"
 - Validação de valor antes do pagamento
 - Correção no carregamento do detalhado
 - Estilização de cards pagos
-- Correção de bugd (pagamentos negativos)
+- Correção de bugs (pagamentos negativos)
 
 ### v1.0.0 - 2025-05-10
 - Sistema inicial de pedidos e clientes
