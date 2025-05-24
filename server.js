@@ -21,6 +21,10 @@ const pool = new Pool({
     port: 5432
 })
 
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('🚨 Rejeição não tratada:', reason);
+});
+
 const client = new Client({ authStrategy: new LocalAuth() });
 
 client.on('qr', qr => {
@@ -31,7 +35,20 @@ client.on('ready', () => {
     console.log('WhatsApp conectado!');
 });
 
-client.initialize();
+client.on('auth_failure', (msg) => {
+    console.error('Falha na autenticação do WhatsApp:', msg);
+});
+
+client.on('disconnected', (reason) => {
+    console.warn('WhatsApp desconectado:', reason);
+    // Aqui você pode tentar reiniciar o client ou avisar o usuário
+});
+
+client.on('error', (err) => {
+    console.error('Erro no cliente WhatsApp:', err);
+});
+
+// client.initialize();
 
 async function enviarMensagem(numero, mensagem) {
     try {
@@ -51,7 +68,7 @@ pool.connect()
 app.get('/clientes', async (req, res) => {
 
     try {
-        const dados = await pool.query('SELECT * FROM clientes ORDER BY devedor DESC ')
+        const dados = await pool.query('SELECT * FROM clientes ORDER BY nome ')
 
         res.status(200).json(dados.rows)
 
@@ -62,8 +79,6 @@ app.get('/clientes', async (req, res) => {
 
 app.post('/clientes', async (req, res) => {
     const dados = req.body;
-
-    console.log(dados);
 
     try {
         await pool.query("INSERT INTO clientes (nome, whatsapp) VALUES ($1, $2)", [dados.nome, dados.zap || null])
@@ -87,15 +102,22 @@ app.get('/pedidos/:id', async (req, res) => {
 })
 
 app.put('/pedidos/:id', async (req, res) => {
+
     const id = req.params.id
     const valor = req.body.valor
-
-    console.log(id, valor);
 
     try {
         const valorTotal = await pool.query('SELECT valor_restante, id_cliente FROM pedidos WHERE id = $1', [id])
 
+        const valorCorreto = parseFloat(valorTotal.rows[0].valor_restante) >= parseFloat(valor)
+
+        if (!valorCorreto) {
+            return res.status(400).json({ erro: 'Pagamento maior que o saldo restante.' });
+        }
+
+
         const valor_Total = valorTotal.rows[0].valor_restante
+
         const novoValor = valor_Total - valor
 
         const idDoCliente = valorTotal.rows[0].id_cliente
@@ -106,7 +128,11 @@ app.put('/pedidos/:id', async (req, res) => {
         await pool.query('UPDATE clientes SET devedor = devedor - $1 WHERE id = $2', [valor, idDoCliente])
         await pool.query('UPDATE clientes SET pagou = pagou + $1 WHERE id = $2', [valor, idDoCliente])
 
-        res.status(200).json({ mensagem: 'Sucesso ao realizar o pagamento!' });
+        res.status(200).json({
+            mensagem: 'Sucesso ao realizar o pagamento!',
+            clientId: idDoCliente
+        });
+
     } catch (error) {
         console.log(error);
         res.status(200).json(`erro ao registrar pagamento: ${error}`)
@@ -117,8 +143,6 @@ app.put('/pedidos/:id', async (req, res) => {
 
 app.post('/pedidos', async (req, res) => {
     const dados = req.body
-
-    console.log(dados);
 
 
     try {
@@ -137,13 +161,8 @@ app.get('/cobrar/:id', async (req, res) => {
     try {
 
         if (!client.info || !client.info.wid) {
-            console.log('caiu aqui no if')
-
             return res.status(503).json({ mensagem: 'Whatsapp iniciando...' });
         }
-
-        console.log('passou do if')
-
 
         const dados = await pool.query('SELECT * FROM pedidos WHERE id = $1', [id])
 
@@ -167,6 +186,23 @@ app.get('/cobrar/:id', async (req, res) => {
 
     }
 })
+
+app.get('/clienteDetalhado/:id', async (req, res) => {
+    try {
+        const idCliente = req.params.id;
+
+        const dadosCliente = await pool.query('SELECT * FROM clientes WHERE id=$1', [idCliente]);
+        const dadosFaturas = await pool.query('SELECT * FROM pedidos WHERE id_cliente = $1', [idCliente]);
+
+        res.status(200).json({
+            cliente: dadosCliente.rows[0],
+            faturas: dadosFaturas.rows
+        });
+    } catch (err) {
+        console.error('Erro no endpoint /clienteDetalhado:', err);
+        res.status(500).json({ erro: 'Erro interno no servidor' });
+    }
+});
 
 // rota
 app.get('/', (req, res) => {

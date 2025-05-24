@@ -7,12 +7,36 @@
     <script src="script.js" defer></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Devedores</title>
+
+    <link rel="shortcut icon" href="assets/Devedores.ico" type="image/x-icon">
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+
+    <!-- Toastr.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 </head>
 
 <body>
+
+    <div id="clienteDetalhado">
+        <div class="new">NEW</div>
+        <p>Clientes<br>Detalhado</p>
+
+        <div class="clienteDetalhadoContain" style="display: none;">
+            <select id="detalheClienteSelect">
+                <option value="" disabled selected>Selecione</option>
+            </select>
+            <button id="btnClienteDetalhado" onclick="abrirClienteDetalhado()">Vizualizar</button>
+        </div>
+
+    </div>
 
     <div id="detalhado" style="display: none;">
         <div class="sair" onclick="fechar()">X</div>

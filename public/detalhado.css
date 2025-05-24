@@ -1,0 +1,102 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#voltar {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    background-color: red;
+    border-radius: 50px;
+    border: none;
+    font-size: 1.5rem;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    box-shadow: 5px 5px 5px gray;
+
+}
+
+body {
+    background-color: lightblue;
+}
+
+.container {
+    width: 70%;
+    background-color: rgb(255, 255, 255);
+    margin: 2rem auto;
+    border-radius: 20px;
+    padding: 3rem;
+}
+
+#nomeCliente {
+    text-align: center;
+    padding-bottom: 3rem;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+#faturas {
+    background-color: #a6e9ff;
+    width: 50%;
+    margin: 1rem auto;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px gray;
+}
+
+.faturaCard:first-child {
+    font-weight: bold;
+}
+
+.faturaCard {
+    display: flex;
+    width: 70%;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: .5rem auto;
+    padding: .5rem;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+
+.infos {
+    width: 70%;
+    justify-content: space-between;
+    display: flex;
+    margin: 0 auto;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #c2f1ff;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid lightgray;
+    box-shadow: 5px 5px 5px gray;
+}
+
+.info p:first-child {
+    font-size: 1.5rem;
+}
+
+.info .obs {
+    color: #303030;
+    font-size: .8rem;
+    margin-bottom: .5rem;
+}
+
+#media,
+#vendasTotais,
+#ultimaCompra {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+

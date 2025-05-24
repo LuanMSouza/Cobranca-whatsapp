@@ -1,4 +1,3 @@
-
 const url = 'http://localhost:4000'
 
 // functions abrir
@@ -14,6 +13,12 @@ function abrir(aba) {
     abaAberta.style.display = 'flex'
 }
 
+document.querySelector('#clienteDetalhado').addEventListener('click', () => {
+    if (document.querySelector('.clienteDetalhadoContain').style.display === 'none') {
+        document.querySelector('.clienteDetalhadoContain').style.display = 'flex'
+    }
+})
+
 function fechar() {
     document.getElementById('detalhado').style.display = 'none'
     document.getElementById('cadastrarCliente').style.display = 'none'
@@ -23,7 +28,14 @@ function fechar() {
 }
 
 async function abrirDetalhado(id) {
-    document.getElementById('detalhado').style.display = 'flex'
+
+
+    if (document.getElementById('detalhado').style.display != 'flex') {
+        document.getElementById('detalhado').style.display = 'flex'
+    }
+
+    document.getElementById('detalhado_container').innerHTML = ''
+
 
     try {
         const dados = await fetch(`${url}/pedidos/${id}`, {
@@ -32,13 +44,7 @@ async function abrirDetalhado(id) {
 
         const dadosCertos = await dados.json()
 
-        console.log(dadosCertos);
-
-        document.getElementById('detalhado_container').innerHTML = ''
-
         dadosCertos.forEach(linha => {
-
-
 
             const dataFormatada = new Date(linha.data).toLocaleDateString();
 
@@ -55,7 +61,6 @@ async function abrirDetalhado(id) {
             if (linha.valor_inicial - linha.valor_abatido === 0) {
                 div.classList.add('detalhadoPago')
             }
-
 
             const detalhadoJaPago = document.createElement('p');
             detalhadoJaPago.classList.add('detalhadoJaPago');
@@ -83,7 +88,6 @@ async function abrirDetalhado(id) {
                 const btnCobranca = document.createElement('button');
                 btnCobranca.textContent = 'Enviar cobrança';
                 btnCobranca.onclick = () => cobrar(linha.id)
-
 
                 cardDir.append(btnTotal, btnParcial, btnCobranca);
 
@@ -116,7 +120,6 @@ function pagamentoParcial(id) {
 }
 
 async function cobrar(id) {
-    console.log('pegou aq')
 
 
     try {
@@ -145,6 +148,19 @@ document.getElementById('olhoFechado').addEventListener('click', () => {
 
 })
 
+function abrirClienteDetalhado() {
+    const cliente = document.querySelector('#detalheClienteSelect').value
+
+    if (!cliente) {
+        toastr.error('Cliente não selecionado', 'Opa!')
+        return
+    }
+
+    localStorage.setItem('cliente', cliente)
+
+    window.location.href = `detalhado.html`
+}
+
 // CRUD
 
 async function cadastrarCliente() {
@@ -153,7 +169,7 @@ async function cadastrarCliente() {
 
 
     if (!nome) {
-        alert('nome obrigatório')
+        toastr.error('Insira um nome antes de continuar', 'Opa!!')
         return
     }
     try {
@@ -166,8 +182,8 @@ async function cadastrarCliente() {
         });
 
         if (data.ok) {
-            alert('Cliente cadastrado com sucesso')
-            window.location.reload()
+            toastr.success('Cliente cadastrado com sucesso')
+            carregarClientes()
         }
 
 
@@ -182,15 +198,15 @@ async function lancarNota() {
     const dataNota = document.getElementById('dataSelecionada').value
 
     if (!clienteSelect) {
-        alert('selecione um cliente')
+        toastr.error('Selecione o cliente antes de continuar!', 'Opa!!')
         return
     }
     if (!valorNota || valorNota < 0) {
-        alert('valor inválido')
+        toastr.error('Valor inválido!', 'Opa!!')
         return
     }
     if (!dataNota) {
-        alert('Data inválida')
+        toastr.error('Selecione a data antes de continuar!', 'Opa!!')
         return
     }
 
@@ -206,8 +222,9 @@ async function lancarNota() {
         })
 
         if (data.ok) {
-            alert('Pedido lançado com sucesso!')
-            window.location.reload()
+            toastr.success('Pedido lançado com sucesso!!')
+            fechar()
+            carregarClientes()
         }
 
 
@@ -224,7 +241,7 @@ async function pagamentoTotal(id) {
     valor = parseFloat(valor); // Converte para número real
 
     if (!confirm(`Confirmar pagamento total?`)) {
-        alert('pagamento cancelado')
+        toastr.error('pagamento cancelado')
         return
     }
 
@@ -240,11 +257,10 @@ async function pagamentoTotal(id) {
         const resposta = await dados.json();
 
         if (dados.ok) {
-            window.location.reload()
+            abrirDetalhado(resposta.clientId)
         }
 
-        // Converte o objeto em string para exibição no alert
-        alert(JSON.stringify(resposta, null, 2));
+        toastr.success('Pagamento lançado com sucesso!!', 'Pagamento total!')
     } catch (error) {
         console.log(error);
     }
@@ -275,14 +291,19 @@ async function lancarPagamentoParcial(id) {
             body: JSON.stringify({ valor })
         });
 
+        if (dados.status === 400) {
+            toastr.error('Valor maior do que valor devedor', 'Erro!!')
+            return
+        }
+
         const resposta = await dados.json();
 
         if (dados.ok) {
-            window.location.reload()
+            abrirDetalhado(resposta.clientId)
+            document.getElementById('pagamentoParcial').style.display = 'none'
+            toastr.success('Pagamento lançado com sucesso!!', 'Pagamento parcial!')
         }
 
-        // Converte o objeto em string para exibição no alert
-        alert(JSON.stringify(resposta, null, 2));
     } catch (error) {
         console.log(error);
     }
@@ -292,16 +313,28 @@ async function lancarPagamentoParcial(id) {
 // inicialização
 
 async function carregarClientes() {
+    // reset
+    document.getElementById('clienteSelecionado').innerHTML = '<option value = "" disabled selected > Selecione o cliente</option> ';
+    document.getElementById('detalheClienteSelect').innerHTML = '<option value = "" disabled selected > Selecione</option> ';
+    document.getElementById('contas').innerHTML = ''
+
+
     const clientesRecebidos = await fetch(`${url}/clientes`, { method: 'get' })
 
     const clientes = await clientesRecebidos.json()
 
     clientes.forEach(cliente => {
-        const criarOpt = document.createElement('option')
-        criarOpt.value = cliente.id
-        criarOpt.textContent = cliente.nome
+        const criarOpt1 = document.createElement('option');
+        criarOpt1.value = cliente.id;
+        criarOpt1.textContent = cliente.nome;
 
-        document.getElementById('clienteSelecionado').appendChild(criarOpt)
+        const criarOpt2 = document.createElement('option');
+        criarOpt2.value = cliente.id;
+        criarOpt2.textContent = cliente.nome;
+
+        document.getElementById('clienteSelecionado').appendChild(criarOpt1);
+        document.getElementById('detalheClienteSelect').appendChild(criarOpt2);
+
 
 
         if (parseFloat(cliente.devedor) === 0) {
@@ -379,14 +412,28 @@ async function calcularTotal() {
 
         document.getElementById('totalNaRua').value = totalContasFormatado
 
-        console.log(totalContasFormatado);
 
     } catch (error) {
 
     }
 }
 
-
-
 carregarClientes()
 calcularTotal()
+
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": true,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}
